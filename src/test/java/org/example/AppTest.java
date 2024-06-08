@@ -96,16 +96,16 @@ public class AppTest {
         int repetitions = 5;
 
         for (int size : sizes) {
+            String filename = "perfTest_" + size + ".txt";
+            createLargeFile(filename, size);
+
             long totalTime = 0;
             for (int i = 0; i < repetitions; i++) {
-                createLargeFile("perfTest.txt", size);
                 App app = new App();
 
                 long startTime = System.nanoTime();
-                app.processFile("perfTest.txt");
-
+                app.processFile(filename);
                 app._max();
-
                 long endTime = System.nanoTime();
 
                 totalTime += (endTime - startTime);
@@ -132,7 +132,7 @@ public class AppTest {
                 }
             }
             writer.write(sb.toString());
-            
+
         }
     }
 }
