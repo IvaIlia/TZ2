@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class App {
-    private List<BigInteger> numbersList;
+    private static List<BigInteger> numbersList;
 
-    public void processFile(String filename) throws IOException {
+    public static void processFile(String filename) throws IOException {
         numbersList = Files.lines(Paths.get(filename))
                 .flatMap(line -> Stream.of(line.split("\\s+")))
                 .filter(numberStr -> !numberStr.isEmpty())
@@ -19,30 +19,29 @@ public class App {
                 .collect(Collectors.toList());
     }
 
-    public BigInteger _min() {
+    public static BigInteger _min() {
         return numbersList.stream().min(BigInteger::compareTo).orElse(BigInteger.ZERO);
     }
 
-    public BigInteger _max() {
+    public static BigInteger _max() {
         return numbersList.stream().max(BigInteger::compareTo).orElse(BigInteger.ZERO);
     }
 
-    public BigInteger _sum() {
+    public static BigInteger _sum() {
         return numbersList.stream().reduce(BigInteger.ZERO, BigInteger::add);
     }
 
-    public BigInteger _mult() {
+    public static BigInteger _mult() {
         return numbersList.stream().reduce(BigInteger.ONE, BigInteger::multiply);
     }
 
     public static void main(String[] args) {
         try {
-            App app = new App();
-            app.processFile("numbers.txt");
-            System.out.println("Min: " + app._min());
-            System.out.println("Max: " + app._max());
-            System.out.println("Sum: " + app._sum());
-            System.out.println("Mult: " + app._mult());
+            processFile("numbers.txt");
+            System.out.println("Min: " + _min());
+            System.out.println("Max: " + _max());
+            System.out.println("Sum: " + _sum());
+            System.out.println("Mult: " + _mult());
         } catch (IOException e) {
             e.printStackTrace();
         }
